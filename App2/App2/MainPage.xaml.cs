@@ -17,7 +17,7 @@ namespace App2
 
             //throw new Exception("Generate unhandled exception");
         }
-
+        //Rollbar-Xamarin-Example
         private void Generate_Uncaught(object sender, EventArgs e)
         {
             throw new Exception("Null pointor exception");

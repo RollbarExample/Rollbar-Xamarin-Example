@@ -14,7 +14,7 @@ namespace App2
         {
             ConfigureRollbarSingleton();
             InitializeComponent();
-            AppDomain.CurrentDomain.UnhandledException += logError;
+           // AppDomain.CurrentDomain.UnhandledException += logError;
             MainPage = new MainPage();
         }
 
@@ -44,12 +44,6 @@ namespace App2
                 RollbarLocator.RollbarInstance.AsBlockingLogger(TimeSpan.FromSeconds(10)).
                  Critical(args.ExceptionObject);
             }
-            //ErrLog.logger.log(ex);
-
-            //RollbarLocator.RollbarInstance.Info("datatttttttttttttttttt");
-            //RollbarLocator.RollbarInstance.Error(args.ExceptionObject);
-            
-           
         }
 
 

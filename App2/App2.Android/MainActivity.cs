@@ -19,28 +19,30 @@ namespace App2.Droid
         {
             TabLayoutResource = Resource.Layout.Tabbar;
             ToolbarResource = Resource.Layout.Toolbar;
-          //  ConfigureRollbarSingleton();
             base.OnCreate(bundle);
-            // AppDomain.CurrentDomain.UnhandledException += CurrentDomainOnUnhandledException;
-            // TaskScheduler.UnobservedTaskException += TaskSchedulerOnUnobservedTaskException;
-            try
-            {
-                var sdCardPath = Android.OS.Environment.ExternalStorageDirectory.Path;
-                var filePath = System.IO.Path.Combine(sdCardPath, "iootext.txt");
-                if (!System.IO.File.Exists(filePath))
-                {
-                    using (System.IO.StreamWriter write = new System.IO.StreamWriter(filePath, true))
-                    {
-                        write.Write("yttqyqfdwdfqhhgqhgachgCAHGCAAHG");
-                    }
-                }
-            }catch(Exception e)
-            {
-
-            }
-
+            AppDomain.CurrentDomain.UnhandledException += CurrentDomainOnUnhandledException;
+            TaskScheduler.UnobservedTaskException += TaskSchedulerOnUnobservedTaskException;
             global::Xamarin.Forms.Forms.Init(this, bundle);
             LoadApplication(new App());
+        }
+
+       private void ToLogUnhandledException(Exception exception)
+        {
+            //RollbarLocator.RollbarInstance.Info("Exception is not null");
+            //Console.WriteLine(ex);
+            RollbarLocator.RollbarInstance.AsBlockingLogger(TimeSpan.FromSeconds(10)).Critical(exception);
+        }
+
+        private void TaskSchedulerOnUnobservedTaskException(object sender, UnobservedTaskExceptionEventArgs unobservedTaskExceptionEventArgs)
+        {
+            var newExc = new Exception("TaskSchedulerOnUnobservedTaskException", unobservedTaskExceptionEventArgs.Exception);
+            ToLogUnhandledException(newExc);
+        }
+
+       private  void CurrentDomainOnUnhandledException(object sender, UnhandledExceptionEventArgs unhandledExceptionEventArgs)
+        {
+            var newExc = new Exception("CurrentDomainOnUnhandledException", unhandledExceptionEventArgs.ExceptionObject as Exception);
+            ToLogUnhandledException(newExc);
         }
     }
 }
